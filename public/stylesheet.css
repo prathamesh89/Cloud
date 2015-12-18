@@ -1,0 +1,13 @@
+#itemlist.ul {
+	color: blue;
+}
+#searchtext{
+	background-color:#4C5A65;
+	padding:50px 50px 30px;
+	margin:80px 0;
+	position:relative;
+
+	-moz-border-radius:16px;
+	-webkit-border-radius:16px;
+	border-radius:16px;
+}

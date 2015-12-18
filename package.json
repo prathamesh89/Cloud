@@ -1,0 +1,28 @@
+{
+  "name": "socket-chat-example",
+  "version": "0.0.1",
+  "description": "my first socket.io app",
+  "dependencies": {
+<<<<<<< HEAD
+    "express": "^4.10.2",
+    "socket.io": "1.2.0"
+=======
+    "express": "4.10.2",
+    "socket.io": "1.2.0",
+    "passport": "~0.3.2",
+    "express-session": "~1.12.1",
+    "cookie-parser": "~1.4.0",
+    "body-parser": "~1.14.1",
+    "fb": "~0.7.3",
+    "ejs": "~2.3.4",
+<<<<<<< HEAD
+    "aws-sdk": "~2.2.22",
+    "connect": "~3.4.0",
+    "elasticsearch": "~10.0.1",
+    "moment": "~2.10.6"
+=======
+    "aws-sdk": "~2.2.22"
+>>>>>>> 23b8796328be27f0c334fc7137fcc86a045d4ec5
+>>>>>>> 4548ad5db9b4ed7d07547a12759f5c7a344502b2
+  }
+}

@@ -1,0 +1,73 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Facebook Login using Node and Express</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+</head>
+<body>
+<% if (!user) { %>
+  <div style="width:500px;height:180px;background-color:#ececec;padding:80px;margin-left:22%;margin-top:9%;">
+	<h2 style="font-size:40px;">Welcome! Please log in.</h2>
+	<a href="/auth/facebook"><img src="fb-login.jpg" width="151" height="24"></a>
+	</div>
+<% } else { %>
+	<link rel="stylesheet" href="/styles.css">
+	<div id="page">
+
+    <h1>Social Search</h1>
+
+    <div id="button_frnd">
+
+    </div>
+    <ul id = "messages"></ul>
+    <form id ="chat_form" action="">
+      <input id="m" autocomplete="off" /><button id="chat">Send</button>
+    </form>
+    
+    <form id="searchForm">
+		<fieldset>
+        
+           	<input id="s" type="text" />
+            
+            <input type="submit" value="Submit" id="submitButton" />
+
+            <button onclick="location.href = 'logout'"  id="logout">Logout</button>
+
+            <button id="click2chat">Click to Chat</button>
+            
+            <!-- <div id="searchInContainer">
+                <input type="radio" name="check" value="site" id="searchSite" checked />
+                <label for="searchSite" id="siteNameLabel">Search</label>
+                
+                <input type="radio" name="check" value="web" id="searchWeb" />
+                <label for="searchWeb">Search The Web</label>
+			</div>
+                        
+            <ul class="icons">
+                <li class="web" title="Web Search" data-searchType="web">Web</li>
+                <li class="images" title="Image Search" data-searchType="images">Images</li>
+                <li class="news" title="News Search" data-searchType="news">News</li>
+                <li class="videos" title="Video Search" data-searchType="video">Videos</li>
+            </ul>
+             -->
+        </fieldset>
+
+    </form>
+
+    <div id="resultsDiv">
+
+        <ul id="itemList"></ul>
+    </div>
+
+
+
+    
+</div>
+	
+<% } %>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/script.js"></script>
+</body>
+</html>

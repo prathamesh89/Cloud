@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      #chat_form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      #m { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+
+    <!-- The required Libararies to make the chatting application work -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+
+        // Initilaizing the socket instance
+        var socket = io();
+        var receipient = "";
+        var user_name = "";
+
+        function selectReceipient(friend){
+            receipient = friend;
+        }
+
+        //When the user hits the submit button send the message in the text
+        //bb using socket event --> chat message 
+        //the server will listen for this event 
+        //Look at the io event handler in index.js
+      $(document).ready(function(){  
+
+        $('#chat').click(function(){
+          var msg = user_name+"$"+receipient+"$"+$('#m').val();
+          socket.emit('chat message', msg);
+          $('#m').val('');
+          return false;
+        });
+
+        $('#nick_set').click(function(){
+           user_name = $('#user').val();
+           socket.emit('new user', $('#user').val());
+           return false;
+        });
+
+        socket.on('chat message', function(msg){
+          $('#messages').append($('<li>').text(msg.nick+" : "+msg.msg));
+        });
+        
+      });  
+    </script>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+  <!-- 
+    Select the receipient here -->
+    <button onclick="selectReceipient('krishna')">Krishna</button>
+    <button onclick="selectReceipient('praveen')">Praveen</button>
+    <button onclick="selectReceipient('vivek')">Vivek</button>
+
+    <form id = "nick_form" action ="">
+      <input type ="text" id="user" />
+      <button id = "nick_set">Set Name</button>
+    </form>
+
+    <form id ="chat_form" action="">
+      <input id="m" autocomplete="off" /><button id="chat">Send</button>
+    </form>
+  </body>
+</html>
