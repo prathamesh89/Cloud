@@ -70,25 +70,32 @@ $(document).ready(function(){
 
     	if(clicked.substring(0,3) == "fri"){
     		var frnd = document.getElementById(clicked).innerHTML;
+    		console.log("RECEIEVER SELECTED: "+frnd);
+    		console.log("SENDER SELECTED: "+myUsername);
     		receipient = frnd;
     	}
     	else if(clicked == "click2chat"){
     		socket = io();
+    		console.log("initialized socket");
     		socket.on('chat message', function(msg){
-    			if(sender!=msg.nick && sender!=myUsername){
-    				var buttons = '<button id="friends|'+ msg.nick+'">'+msg.nick+'</button><br/>';
-
-					$("#button_frnd").append(buttons);    			
+    			console.log("MESSAGE RECEIVED FROM SERVER: "+msg);
+    			var _sender = msg.split('$')[0];
+    			var _msg = msg.split('$')[2];
+    			//if new sender then set sender as new sender and create a button
+    			if(_sender!=myUsername && _sender!=sender){
+    				var buttons = '<button id="friends|'+_sender+'">'+_sender+'</button><br/>';
+					$("#button_frnd").append(buttons); 
+					sender = _sender;   			
 				}
-	          $('#messages').append($('<li>').text(msg.nick+" : "+msg.msg));
-	          console.log(msg.msg);
+	         	$('#messages').append($('<li>').text(_sender+" : "+_msg));
+	     
 	        });
+			
 	        socket.on("set username", function(user){
-	        	if(myUsername!=user){
-	        		console.log("Set user name: "+ user);
+	        	
+	        		console.log("YOUR USERNAME SET TO: "+ user);
 	        		myUsername = user;
-	        		socket.emit("new user", user);
-	        	}
+	        		//socket.emit("new user", user);
 	        });
     	}
 
@@ -138,11 +145,13 @@ $(document).ready(function(){
 	});
 
 	 $('#chat').click(function(){
-          var msg = "$"+receipient+"$"+$('#m').val();
+
+          var msg = myUsername+"$"+receipient+"$"+$('#m').val();
+          console.log("CHAT SENT: "+msg);
           socket.emit('chat message', msg);
           $('#m').val('');
           return false;
-        });
+     });
 	
 	
 	function googleSearch(settings){

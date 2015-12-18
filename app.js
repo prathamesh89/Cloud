@@ -32,9 +32,12 @@ app.get('/chat', function(req, res){
 
 //CHAT CODE
 io.on('connection', function(socket){
+
+  //
   console.log("a user connected to the chat app");
 
   //event handler when the user exists the browser
+  /*
   socket.on('disconnect', function(){
     //remove user from the users list
     delete users[socket.nickname];
@@ -49,36 +52,38 @@ io.on('connection', function(socket){
         msgs.splice(i, 1);
     };
     });
-
+  */
   //event handler when the user clicks on the submit button --> chat message
+
+
     socket.on('chat message', function(msg){
       //when chat is received check if the user is available
       //if he is send him the message or else store the message
-      msg = username + msg;
+      console.log('BACKEND RECEIVED: ' + msg);
       var receiver = msg.split('$')[1];
-      var sender = msg.split('$')[0];
-      socket.emit('chat message', {msg: msg.split('$')[2], nick: sender});
+      socket.emit('chat message', msg);
       if (receiver in users) {
-        console.log("sending msg to specified user"+receiver);
-        users[receiver].emit('chat message', {msg: msg.split('$')[2], nick: sender});
+        console.log("sending msg to specified user because available: "+receiver);
+        users[receiver].emit('chat message', msg);
 
       }else{
+        console.log("RECEIVER NOT AVAILABLE, PUSHING TO MSGS FOR LATER!");
         msgs.push(msg); 
       }
-      console.log('message: ' + msg);
+      
       //io.emit('chat message', {msg: msg, nick: socket.nickname});
       
     });
 
-    socket.on('new user', function(username){
+    // socket.on('new user', function(username){
 
       socket.nickname = username;
-
+      username = "";
       //user socket stored
       users[socket.nickname] = socket;
-      socket.emit("set username",username);
-      console.log("new user: "+username);
-      nicknames.push(socket.nickname);
+      socket.emit("set username", socket.nickname);
+      console.log("new user: "+socket.nickname);
+      //nicknames.push(socket.nickname);
 
       //when a user connects using a nickname
       //get all his msgs and emit
@@ -89,9 +94,9 @@ io.on('connection', function(socket){
         var receiver = message.split('$')[1];
         if(receiver === socket.nickname)
           //send message from msgs and the sender's nickname
-          io.emit('chat message', {msg : message.split('$')[2], nick: message.split('$')[0]});
+          socket.emit('chat message', message);
       };
-    });
+  // });
   
 });
 //CHAT CODE
@@ -141,8 +146,11 @@ passport.use(new FacebookStrategy({
       FB.setAccessToken(accessToken);
       FB.api('/me/friends',  { locale: 'en_US', fields: 'name, email'}, function(response) {
          //console.log(JSON.stringify(response)+"\n");
+
+           console.log("IN FACEBOOK LOGIN");
            id = profile.id;
            var name = profile.displayName;
+           console.log("LOGGED THIS GUY: "+name);
            username = name;
            var friends = [];
 
